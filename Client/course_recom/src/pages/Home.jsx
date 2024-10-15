@@ -12,9 +12,7 @@ const animationData = require('../styles/Animation - 1728897180138');
 
 function Home() {
   useEffect(() => {
-    setTimeout(() => {
-      AOS.init({ duration: 1000, once: true });
-    }, 500); // Added delay for AOS initialization
+    AOS.init({ duration: 1000, once: true });
   }, []);
 
   return (

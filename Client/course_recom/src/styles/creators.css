@@ -1,0 +1,82 @@
+.creators-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2rem;
+  }
+  
+  .creator-card {
+    position: relative;
+    width: 300px; /* Adjust width as needed */
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 400px;
+  }
+  
+  .image-container {
+    position: relative;
+    overflow: hidden; /* Hide overflow for the hover effect */
+  }
+  
+  .creator-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-container:hover .creator-image {
+    transform: scale(1.1); /* Zoom effect on hover */
+  }
+  
+  .hover-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Dark background for visibility */
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .image-container:hover .hover-info {
+    opacity: 1; /* Show the text on hover */
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .social-button {
+    color: white;
+    text-decoration: none;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+  
+  .social-button.linkedin:hover {
+    background: #0072b1; /* LinkedIn color */
+  }
+  
+  .social-button.instagram:hover {
+    background: #e1306c; /* Instagram color */
+  }
+  
+  .social-button.github:hover {
+    background: #333; /* GitHub color */
+  }
+  
