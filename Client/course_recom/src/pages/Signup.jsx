@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../styles/Signup.css';
 
 function Signup() {
   const [name, setName] = useState("");
@@ -25,62 +26,71 @@ function Signup() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
-      <div className="bg-white rounded w-50">
-        <h2>Register Here!!</h2>
+    <>
+    <nav className="navbar">
+        <ul>
+          <li>
+            <Link to="/home">Home</Link>
+          </li>
+        </ul>
+      </nav>
+    <div className="signup-container">
+      <div className="signup-form">
+        <h2 className="signup-header">Register Here!!</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
+          <div className="signup-input-group">
+            <label htmlFor="name" className="signup-label">
               <strong>Name</strong>
             </label>
             <input 
               type="text" 
               placeholder="Enter your name"
               autoComplete="off"
-              className="form-control rounded-0" 
+              className="signup-input" 
               name="name"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="email">
+          <div className="signup-input-group">
+            <label htmlFor="email" className="signup-label">
               <strong>Email</strong>                     
             </label>
             <input 
               type="email" 
               placeholder="Enter your email"
               autoComplete="off"
-              className="form-control rounded-0" 
+              className="signup-input" 
               name="email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password">
+          <div className="signup-input-group">
+            <label htmlFor="password" className="signup-label">
               <strong>Password</strong>                     
             </label>
             <input 
               type="password" 
               placeholder="Enter your password"
-              className="form-control rounded-0" 
+              className="signup-input" 
               name="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          <button type="submit" className="btn btn-success w-100 rounded-0">
+          <button type="submit" className="signup-button">
             Register
           </button>
         </form> 
 
-        <p>Already have an account?</p>
-        <Link to="/login" className="btn btn-default border w-100 rounded-0 text-decoration-none">
+        <p className="signup-footer-text">Already have an account?</p>
+        <Link to="/login" className="signup-login-btn">
           Login
         </Link>
       </div>
     </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense, useState } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -8,42 +8,11 @@ import '../styles/HomePage.css';
 const Lottie = lazy(() => import('lottie-react'));
 
 // Importing the Lottie animation data separately to allow lazy load
-const animationData = require('../styles/Animation - 1728897180138');
-
-// Slider Component (memoized)
-const Slider = React.memo(() => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [
-    { img: require('../styles/slide1.jpg'), title: 'Slide 1' },
-    { img: require('../styles/slide2.jpg'), title: 'Slide 2' },
-    { img: require('../styles/slide3.jpg'), title: 'Slide 3' }
-  ];
-
-  useEffect(() => {
-    const slideInterval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 3000); // Change slides every 3 seconds
-
-    return () => clearInterval(slideInterval); // Clean up on unmount
-  }, [slides.length]);
-
-  return (
-    <div className="slider">
-      {slides.map((slide, index) => (
-        <div className={`slide ${index === currentSlide ? 'active' : ''}`} key={index}>
-          <img src={slide.img} alt={slide.title} loading="lazy" />
-          <h2>{slide.title}</h2>
-        </div>
-      ))}
-    </div>
-  );
-});
+const animationData = require('../assets/Animation - 1728897180138');
 
 function Home() {
   useEffect(() => {
-    setTimeout(() => {
-      AOS.init({ duration: 1000, once: true });
-    }, 500); // Delay for AOS initialization
+    AOS.init({ duration: 1000, once: true });
   }, []);
 
   return (
@@ -76,18 +45,15 @@ function Home() {
         </div>
       </div>
 
-      {/* Slider Component */}
-      <Slider />
-
       {/* Course Recommendations Section */}
       <div className="course-recommendations">
         <h2 data-aos="slide-in">Top Recommended Courses</h2>
         <div className="course-grid">
           <div className="course-card" data-aos="zoom-in">
             <img 
-              src={require("../styles/zhenyu-luo-kE0JmtbvXxM-unsplash.jpg")} 
+              src={require("../assets/zhenyu-luo-kE0JmtbvXxM-unsplash.jpg")} 
               alt="Course 1" 
-              loading="lazy"
+              loading="lazy"  // Lazy loading for better performance
             />
             <h3>Course 1</h3>
             <p>Learn the fundamentals of programming.</p>
@@ -95,14 +61,15 @@ function Home() {
           </div>
           <div className="course-card" data-aos="zoom-in" data-aos-delay="200">
             <img 
-              src={require("../styles/diggity-marketing-SB0WARG16HI-unsplash.jpg")} 
-              alt="Course 2"
-              loading="lazy"
+              src={require("../assets/diggity-marketing-SB0WARG16HI-unsplash.jpg")} 
+              alt="Course 2" 
+              loading="lazy"  // Lazy loading for better performance
             />
             <h3>Course 2</h3>
             <p>Master data science and AI techniques.</p>
             <button>Enroll Now</button>
           </div>
+          {/* More Course Cards */}
         </div>
       </div>
 

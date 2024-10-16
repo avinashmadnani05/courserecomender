@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/creators.css"; // Import the stylesheet
-import avinash from "../styles/avinash.jpg";
-import arushi from "../styles/arushi.jpeg";
+import avinash from "../assets/avinash.jpg";
+import arushi from "../assets/arushi.jpeg";
 const creators = [
   {
     name: "Avinash Madnani",
