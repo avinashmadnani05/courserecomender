@@ -4,12 +4,72 @@
     position: relative;
 }
 
+/* Styles for the header to fix it at the top */
+header {
+    position: fixed; /* Fixes the header to the top */
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white; /* Background color for the navbar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for the navbar */
+    z-index: 1000; /* Ensure it stays above other content */
+    padding: 10px 20px; /* Padding for the navbar */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Button styles */
+nav .button {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 30px; /* Bigger button size */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px; /* Increase font size */
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for hover effect */
+}
+
+nav .button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px); /* Slight lift on hover */
+}
+
+nav .button:hover::after {
+    content: attr(data-info);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.small-button {
+    background-color: #007bff;
+    padding: 8px 16px; /* Smaller size for small buttons */
+    font-size: 14px;
+}
+
+.small-button:hover {
+    background-color: #0056b3;
+}
+
 .dashboard {
     position: fixed;
     left: 0;
     top: 0;
     height: 100%;
-    width: 250px; /* Adjust width as needed */
+    width: 250px;
     background-color: white;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -47,17 +107,12 @@
     background-color: #e53935; /* Darker red on hover */
 }
 
-.button {
-    background-color: #007bff; /* Button color */
-    color: white; /* Text color */
-    padding: 10px 20px; /* Button padding */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    font-size: 16px; /* Increase font size */
-    transition: background-color 0.3s ease; /* Transition for hover effect */
+main {
+    padding-top: 80px; /* Add padding to the top to avoid content hiding under the fixed navbar */
 }
 
-.button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+main h1 {
+    margin-bottom: 40px;
+    font-size: 3rem; /* Adjust the font size of the welcome message */
+    color: #333;
 }

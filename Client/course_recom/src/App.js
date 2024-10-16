@@ -7,6 +7,7 @@ import UserInput from './pages/UserInput';
 import User from './pages/user';
 import HomePage from './pages/Home';
 import Creators from './pages/creators';
+import DomainInput from './pages/domain';
 function App() {
   return (
   <>
@@ -18,7 +19,7 @@ function App() {
 
       <Route path="/login" element={<Login />} />
       <Route path="/UserInput" element={<UserInput />} />
-      <Route path="/domain" element={<Domain />} />
+      <Route path="/domain" element={<DomainInput />} />
       <Route path="/user" element={<User />} />
       <Route path="/creators" element={<Creators />} />
       <Route path="*" element={<HomePage />} />
