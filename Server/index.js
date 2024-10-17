@@ -45,52 +45,52 @@ app.post('/login', (req, res) => {
 });
 
 // New route for DomainInput
-app.post('/domain', async (req, res) => {
-  console.log(req.body); // Log the request body
-  try {
-    const { userId, pastExperience, skills, interests } = req.body; // Destructure domain
-    const domainputs = new domaininputsModel({ userId, interests, pastExperience, skills }); // Use the correct model
-    await domainputs.save();
-    res.json({ message: 'Domain input saved successfully.' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error saving domain input.', error });
-  }
-});
+// app.post('/domain', async (req, res) => {
+//   console.log(req.body); // Log the request body
+//   try {
+//     const { userId, pastExperience, skills, interests } = req.body; // Destructure domain
+//     const domainputs = new domaininputsModel({ userId, interests, pastExperience, skills }); // Use the correct model
+//     await domainputs.save();
+//     res.json({ message: 'Domain input saved successfully.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Error saving domain input.', error });
+//   }
+// });
 
 // New schema and model for storing domain recommendations
-const domainRecomSchema = new mongoose.Schema({
-  userId: Number,
-  recommended_domains: Array,
-});
-const DomainRecommendation = mongoose.model('DomainRecommendation', domainRecomSchema);
+// const domainRecomSchema = new mongoose.Schema({
+//   userId: Number,
+//   recommended_domains: Array,
+// });
+// const DomainRecommendation = mongoose.model('DomainRecommendation', domainRecomSchema);
 
-// API endpoint to fetch domain recommendations for a user
-app.get('/getdomains/:userId', async (req, res) => {
-  try {
-    const userId = parseInt(req.params.userId); // Ensure userId is a number
-    const recommendations = await DomainRecommendation.findOne({ userId });
+// // API endpoint to fetch domain recommendations for a user
+// app.get('/getdomains/:userId', async (req, res) => {
+//   try {
+//     const userId = parseInt(req.params.userId); // Ensure userId is a number
+//     const recommendations = await DomainRecommendation.findOne({ userId });
 
-    if (recommendations) {
-      res.json(recommendations.recommended_domains);
-    } else {
-      res.status(404).json({ message: 'No domain recommendations found for this user' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error fetching domain recommendations' });
-  }
-});
+//     if (recommendations) {
+//       res.json(recommendations.recommended_domains);
+//     } else {
+//       res.status(404).json({ message: 'No domain recommendations found for this user' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Error fetching domain recommendations' });
+//   }
+// });
 
 
-// User input handling and Python script execution
+// User Input Route
 app.post('/UserInput', async (req, res) => {
   try {
     const userInput = new userinputModel(req.body);
     await userInput.save();
 
     // Run the Python script after saving user input
-    const python = spawn('python', ['ML/recomend.py']);
+    const python = spawn('python', ['ML/input.py']); // Replace with the correct path
 
     python.stdout.on('data', (data) => {
       console.log(`Python Output: ${data}`);
@@ -113,9 +113,9 @@ app.post('/UserInput', async (req, res) => {
   }
 });
 
-// Example schema and model for recommendations
+// Example schema and model
 const RecommendationSchema = new mongoose.Schema({
-  userId: Number,
+  userId: Number, // Ensure userId is stored
   recommended_courses: Array,
 });
 const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
@@ -127,7 +127,7 @@ app.get('/getRecommendations/:userId', async (req, res) => {
     const recommendations = await Recommendation.findOne({ userId });
 
     if (recommendations) {
-      res.json(recommendations.recommended_courses);
+      res.json(recommendations.recommended_courses); // Send recommended courses as an array
     } else {
       res.status(404).json({ message: 'No recommendations found for this user' });
     }
