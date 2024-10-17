@@ -132,8 +132,8 @@ def save_recommendations_to_mongo(user_id, recommendations):
     )
 
 
-recommended_courses = hybrid_recommend(user_id=1, num_recs=10)
-save_recommendations_to_mongo(user_id=1, recommendations=recommended_courses)
+recommended_courses = hybrid_recommend(user_Id=1, num_recs=10)
+save_recommendations_to_mongo(user_Id=1, recommendations=recommended_courses)
 # Close the MongoDB connection
 client.close()
 

@@ -58,7 +58,7 @@ def recommend_domains(user_id):
     recommendations = top_recommendations['domain'].tolist()[:10]
     
     # Store the recommendations in 'domainrecom' collection
-    db['domainrecom'].insert_one({
+    db['domainrecommendations'].insert_one({
         'userId': user_id,
         'recommended_domains': recommendations
     })

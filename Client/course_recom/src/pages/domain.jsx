@@ -10,24 +10,38 @@ const DomainInput = () => {
   const [skills, setSkills] = useState('');
   const [recommendedDomains, setRecommendedDomains] = useState([]); // Changed to store domains
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Save user input to 'domaininputs' collection
-      await axios.post('http://localhost:3000/domain', {
-        userId,
-        interests,
-        pastExperience,
-        skills,
-      });
-
-      // Fetch the recommended domains after saving input
-      const response = await axios.get(`http://localhost:3000/getdomains/${userId}`);
-      setRecommendedDomains(response.data); // Store recommendations in state
-    } catch (error) {
-      console.error('Error fetching domain recommendations:', error);
-    }
-  };
+    const handleSubmit = async (e) => {
+      e.preventDefault(); // Prevent default form submission behavior
+      try {
+        // Save user input to 'domaininputs' collection
+        const saveResponse = await axios.post('http://localhost:3000/domain', {
+          userId,
+          interests,
+          pastExperience,
+          skills,
+        });
+    
+        // Check if domain input was saved successfully
+        if (saveResponse.status === 200) {
+          console.log('Domain input saved successfully.');
+    
+          // Fetch the recommended domains after saving input
+          const response = await axios.get(`http://localhost:3000/getdomains/${userId}`);
+    
+          if (response.status === 200) {
+            setRecommendedDomains(response.data); // Store the fetched recommendations in state
+            console.log('Recommended domains fetched successfully.');
+          } else {
+            console.error('Failed to fetch recommended domains.');
+          }
+        } else {
+          console.error('Failed to save domain input.');
+        }
+      } catch (error) {
+        console.error('Error occurred during domain input or fetching recommendations:', error);
+      }
+    };
+    
 
   return (
     <div>
