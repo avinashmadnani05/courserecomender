@@ -1,47 +1,43 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Lottie from 'lottie-react';
-import Animation from '../assets/Animation - 1728213538584.json'; // Adjust the path as needed
+import Animation from '../assets/Animation - 1728213538584.json';
 
 const DomainInput = () => {
   const [userId, setUserId] = useState('');
   const [interests, setInterests] = useState('');
   const [pastExperience, setPastExperience] = useState('');
   const [skills, setSkills] = useState('');
-  const [recommendedDomains, setRecommendedDomains] = useState([]); // Changed to store domains
+  const [recommendedDomains, setRecommendedDomains] = useState([]);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault(); // Prevent default form submission behavior
-      try {
-        // Save user input to 'domaininputs' collection
-        const saveResponse = await axios.post('http://localhost:3000/domain', {
-          userId,
-          interests,
-          pastExperience,
-          skills,
-        });
-    
-        // Check if domain input was saved successfully
-        if (saveResponse.status === 200) {
-          console.log('Domain input saved successfully.');
-    
-          // Fetch the recommended domains after saving input
-          const response = await axios.get(`http://localhost:3000/getdomains/${userId}`);
-    
-          if (response.status === 200) {
-            setRecommendedDomains(response.data); // Store the fetched recommendations in state
-            console.log('Recommended domains fetched successfully.');
-          } else {
-            console.error('Failed to fetch recommended domains.');
-          }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const saveResponse = await axios.post('http://localhost:3000/domain', {
+        userId,
+        interests,
+        pastExperience,
+        skills,
+      });
+
+      if (saveResponse.status === 200) {
+        console.log('Domain input saved successfully.');
+
+        const response = await axios.get(`http://localhost:3000/getdomains/${userId}`);
+
+        if (response.status === 200) {
+          setRecommendedDomains(response.data);
+          console.log('Recommended domains fetched successfully.');
         } else {
-          console.error('Failed to save domain input.');
+          console.error('Failed to fetch recommended domains.');
         }
-      } catch (error) {
-        console.error('Error occurred during domain input or fetching recommendations:', error);
+      } else {
+        console.error('Failed to save domain input.');
       }
-    };
-    
+    } catch (error) {
+      console.error('Error occurred during domain input or fetching recommendations:', error);
+    }
+  };
 
   return (
     <div>
@@ -110,7 +106,7 @@ const DomainInput = () => {
           <h2>Recommended Domains:</h2>
           <ul>
             {recommendedDomains.map((domain, index) => (
-              <li key={index}>{domain}</li> // Display recommended domain
+              <li key={index}>{domain}</li>
             ))}
           </ul>
         </div>
