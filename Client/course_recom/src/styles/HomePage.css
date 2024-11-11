@@ -83,10 +83,10 @@ body {
 
 /* CTA Button */
 .cta-button {
-  background-color: #007bff;
+  background-color: #505050;
   border: none;
   padding: 10px 20px;
-  color: white;
+  color: rgb(0, 0, 0);
   cursor: pointer;
   border-radius: 5px;
   transition: transform 0.3s;
@@ -99,7 +99,7 @@ body {
 /* Course Recommendations */
 .course-recommendations {
   padding: 3rem;
-  background-color: #f9f9f9;
+  background-color: #000000;
 }
 
 .course-grid {
@@ -162,10 +162,10 @@ body {
   background-color: #f2f2f2;
 }
 
-/* Animation Keyframes */
+/* Animation Keyframes
 @keyframes fadeIn {
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */

@@ -44,15 +44,22 @@ app.post('/login', (req, res) => {
     })
     .catch(err => res.status(500).json({ message: 'Error finding user', error: err }));
 });
+// Example schema and model
+const RecommendationSchema = new mongoose.Schema({
+  userId: Number, // Ensure userId is stored
+  recommended_courses: Array,
+});
+const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
 
-// User Input Route
+
+// Save user input and dynamically generate recommendations
 app.post('/UserInput', async (req, res) => {
   try {
     const userInput = new userinputModel(req.body);
     await userInput.save();
 
     // Run the Python script after saving user input
-    const python = spawn('python', ['ML/input.py']); // Replace with the correct path
+    const python = spawn('python', ['ML/input.py']); // Update the path if needed
 
     python.stdout.on('data', (data) => {
       console.log(`Python Output: ${data}`);
@@ -62,9 +69,14 @@ app.post('/UserInput', async (req, res) => {
       console.error(`Python Error: ${data}`);
     });
 
-    python.on('close', (code) => {
+    python.on('close', async (code) => {
       if (code === 0) {
-        res.json({ message: 'User input saved successfully and recommendations generated.' });
+        // Wait for recommendations to be generated, then fetch them
+        const recommendations = await Recommendation.findOne({ userId: req.body.userId });
+        res.json({
+          message: 'User input saved and recommendations generated successfully.',
+          recommendations: recommendations ? recommendations.recommended_courses : []
+        });
       } else {
         res.status(500).json({ message: 'Error running recommendation script.' });
       }
@@ -75,21 +87,14 @@ app.post('/UserInput', async (req, res) => {
   }
 });
 
-// Example schema and model
-const RecommendationSchema = new mongoose.Schema({
-  userId: Number, // Ensure userId is stored
-  recommended_courses: Array,
-});
-const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
-
-// API endpoint to get recommendations
+// Fetch recommendations
 app.get('/getRecommendations/:userId', async (req, res) => {
   try {
-    const userId = parseInt(req.params.userId); // Ensure userId is a number
+    const userId = parseInt(req.params.userId);
     const recommendations = await Recommendation.findOne({ userId });
 
     if (recommendations) {
-      res.json(recommendations.recommended_courses); // Send recommended courses as an array
+      res.json(recommendations.recommended_courses);
     } else {
       res.status(404).json({ message: 'No recommendations found for this user' });
     }
@@ -98,6 +103,7 @@ app.get('/getRecommendations/:userId', async (req, res) => {
     res.status(500).json({ message: 'Error fetching recommendations' });
   }
 });
+
 
 // New route for DomainInput
 // Save Domain Input and Run Python Script for Recommendation

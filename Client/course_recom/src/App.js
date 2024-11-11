@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Signup from './pages/Signup';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from './pages/login';
-import Domain from './pages/domain';
+// import Domain from './pages/domain';
 import UserInput from './pages/UserInput';
 import User from './pages/user';
 import HomePage from './pages/Home';

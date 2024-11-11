@@ -34,7 +34,9 @@ function Home() {
         <div className="hero-content" data-aos="fade-in">
           <h1>Find Your Perfect Course</h1>
           <p>"Personalized course recommendations at your fingertips."</p>
-          <button className="cta-button" data-aos="zoom-in">Explore Courses</button>
+          <button className="cta-button" data-aos="zoom-in">
+            <Link to="/signup" aria-label="Sign Up">Explore Courses</Link>
+          </button>
         </div>
 
         {/* Lottie animation with Suspense */}
