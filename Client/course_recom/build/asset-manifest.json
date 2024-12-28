@@ -1,14 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.540ce7c3.css",
-    "main.js": "/static/js/main.4e98f4ea.js",
-    "static/media/background-image.jpg": "/static/media/background-image.dec73b0ade4bd6ed0769.jpg",
+    "main.css": "/static/css/main.d8d75020.css",
+    "main.js": "/static/js/main.2cd396f1.js",
+    "static/media/diggity-marketing-SB0WARG16HI-unsplash.jpg": "/static/media/diggity-marketing-SB0WARG16HI-unsplash.937a312a61440c3b9ab4.jpg",
+    "static/media/zhenyu-luo-kE0JmtbvXxM-unsplash.jpg": "/static/media/zhenyu-luo-kE0JmtbvXxM-unsplash.8db27a5e6a8fe363cad7.jpg",
+    "static/media/aaron-burden-LNwn_A9RGHo-unsplash.jpg": "/static/media/aaron-burden-LNwn_A9RGHo-unsplash.e3ace416dc2821fccd9a.jpg",
+    "static/media/arushi.jpeg": "/static/media/arushi.9f74df7a1c2bf9e9bccf.jpeg",
     "index.html": "/index.html",
-    "main.540ce7c3.css.map": "/static/css/main.540ce7c3.css.map",
-    "main.4e98f4ea.js.map": "/static/js/main.4e98f4ea.js.map"
+    "main.d8d75020.css.map": "/static/css/main.d8d75020.css.map",
+    "main.2cd396f1.js.map": "/static/js/main.2cd396f1.js.map"
   },
   "entrypoints": [
-    "static/css/main.540ce7c3.css",
-    "static/js/main.4e98f4ea.js"
+    "static/css/main.d8d75020.css",
+    "static/js/main.2cd396f1.js"
   ]
 }
