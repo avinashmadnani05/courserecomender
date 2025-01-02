@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from "react";
 import Signup from './pages/Signup';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from './pages/login';
@@ -9,9 +10,18 @@ import HomePage from './pages/Home';
 import Creators from './pages/creators';
 import DomainInput from './pages/domain';
 function App() {
+  const [message, setMessage] = useState("");
+
+
+  useEffect(() => {
+    fetch("https://courserecomender-backend.onrender.com/")
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message))
+      .catch((err) => console.error("Error fetching backend:", err));
+  }, []);
   return (
   <>
-    
+      <h1>{message}</h1>
     
     <BrowserRouter>
     <Routes>
