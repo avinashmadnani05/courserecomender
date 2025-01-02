@@ -118,7 +118,7 @@ function Signup() {
 
     try {
       const result = await axios.post(
-        `https://courserecomender-backend.onrender.com/`,
+        'https://courserecomender-backend.onrender.com/signup',
         { name, email, password }
       );
       console.log(result);
