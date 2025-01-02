@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 const corsOptions = {
-  origin: "http://localhost:3000" // frontend URI (ReactJS)
+  origin: "https://courserecomender-eoxr.vercel.app/home" // frontend URI (ReactJS)
 }
 
 // connect MongoDB
