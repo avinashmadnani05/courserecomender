@@ -5,18 +5,27 @@ const userinputModel = require('./models/users');
 const recom_websiteModel = require('./models/userdata');
 const domaininputsModel = require('./models/domaininputs'); // Ensure correct naming
 const { spawn } = require('child_process'); // To run Python script
+require('dotenv').config();
 
-const path = require("path");
+// const path = require("path");
 
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb://127.0.0.1:27017/recom', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const corsOptions = {
+  origin: "http://localhost:3000" // frontend URI (ReactJS)
+}
+
+// connect MongoDB
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+  const PORT = process.env.PORT || 8000
+  app.listen(PORT, () => {
+      console.log(`App is Listening on PORT ${PORT}`);
+  })
+}).catch(err => {
+  console.log(err);
 });
 
 // Existing signup and login routes
@@ -167,7 +176,7 @@ app.get('/getdomains/:userId', async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+// // Start the server
+// app.listen(port, () => {
+//   console.log(`Server started on port ${port}`);
+// });

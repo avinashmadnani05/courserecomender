@@ -3,8 +3,18 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.0",
     "mongoose": "^8.7.0",
     "path": "^0.12.7"
+  },
+  "scripts": {
+    "install-Backend": "cd Server && npm install",
+    "start-Backend":"cd Server && node index.js",
+    "install-client":"cd Client && npm install",
+    "build-client":"cd Client && npm run build",
+    "start-client":"cd Client && npm run start"
+
+
   }
 }
