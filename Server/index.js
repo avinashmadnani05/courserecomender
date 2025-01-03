@@ -28,6 +28,10 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log(err);
 });
 
+app.post('/signup', (req, res) => {
+  // Handle signup logic
+  res.send({ message: 'User signed up!' });
+});
 // Existing signup and login routes
 app.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
