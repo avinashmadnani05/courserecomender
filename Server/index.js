@@ -27,11 +27,7 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 }).catch(err => {
   console.log(err);
 });
-app.get("/", (req,res) => {
-  res.status(201).json({message :"Connected to Backend"});
 
-
-});
 // Existing signup and login routes
 app.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
