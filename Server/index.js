@@ -1,43 +1,43 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const userinputModel = require('./models/users');
-const recom_websiteModel = require('./models/userdata');
-const domaininputsModel = require('./models/domaininputs'); // Ensure correct naming
-const { spawn } = require('child_process'); // To run Python script
-require('dotenv').config();
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// const userinputModel = require('./models/users');
+// const recom_websiteModel = require('./models/userdata');
+// const domaininputsModel = require('./models/domaininputs'); // Ensure correct naming
+// const { spawn } = require('child_process'); // To run Python script
+// require('dotenv').config();
 
-// const path = require("path");
+// // const path = require("path");
 
-const app = express();
+// const app = express();
 
-app.use(express.json());
-app.use(cors());
+// app.use(express.json());
+// app.use(cors(corsOptions));
 
-const corsOptions = {
-  origin: "https://courserecomender-eoxr.vercel.app" // frontend URI (ReactJS)
-}
+// const corsOptions = {
+//   origin: "https://courserecomender-eoxr.vercel.app" // frontend URI (ReactJS)
+// }
 
-// connect MongoDB
-mongoose.connect(process.env.MONGODB_URI).then(() => {
+// // connect MongoDB
+// mongoose.connect(process.env.MONGODB_URI).then(() => {
  
-});
-app.post('/', (req, res) => {
-  // Handle signup logic
-  res.send({ message: 'User signed up!' });
-});
-app.post('/signup', (req, res) => {
-  // Handle signup logic
-  res.send({ message: 'User signed up!' });
-});
-// Existing signup and login routes
-app.post('/signup', (req, res) => {
-  const { name, email, password } = req.body;
-  const user = new recom_websiteModel({ name, email, password });
-  user.save()
-    .then(() => res.json({ message: 'User created successfully' }))
-    .catch(err => res.status(500).json({ message: 'Error creating user', error: err }));
-});
+// });
+// app.post('/', (req, res) => {
+//   // Handle signup logic
+//   res.send({ message: 'User signed up!' });
+// });
+// app.post('/signup', (req, res) => {
+//   // Handle signup logic
+//   res.send({ message: 'User signed up!' });
+// });
+// // Existing signup and login routes
+// app.post('/signup', (req, res) => {
+//   const { name, email, password } = req.body;
+//   const user = new recom_websiteModel({ name, email, password });
+//   user.save()
+//     .then(() => res.json({ message: 'User created successfully' }))
+//     .catch(err => res.status(500).json({ message: 'Error creating user', error: err }));
+// });
 
 // app.post('/login', (req, res) => {
 //   const { email, password } = req.body;
@@ -178,9 +178,52 @@ app.post('/signup', (req, res) => {
 //   }
 // });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // // Start the server
 // app.listen(port, () => {
 //   console.log(`Server started on port ${port}`);
 // });
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const recom_websiteModel = require('./models/userdata');
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+
+// Define CORS Configuration before using it
+const corsOptions = {
+  origin: "https://courserecomender-eoxr.vercel.app", // frontend URI (ReactJS)
+};
+app.use(cors(corsOptions));
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => {
+    console.error('Error connecting to MongoDB:', err.message);
+    process.exit(1); // Exit the app if the database connection fails
+  });
+
+// Routes
+app.post('/signup', (req, res) => {
+  const { name, email, password } = req.body;
+  const user = new recom_websiteModel({ name, email, password });
+
+  user.save()
+    .then(() => res.json({ message: 'User created successfully' }))
+    .catch(err => res.status(500).json({ message: 'Error creating user', error: err.message }));
+});
+
+// Default Route
+app.get('/', (req, res) => {
+  res.send({ message: 'Backend is running!' });
+});
+
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
