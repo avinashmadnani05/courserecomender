@@ -22,7 +22,10 @@ const corsOptions = {
 mongoose.connect(process.env.MONGODB_URI).then(() => {
  
 });
-
+app.post('/', (req, res) => {
+  // Handle signup logic
+  res.send({ message: 'User signed up!' });
+});
 app.post('/signup', (req, res) => {
   // Handle signup logic
   res.send({ message: 'User signed up!' });
