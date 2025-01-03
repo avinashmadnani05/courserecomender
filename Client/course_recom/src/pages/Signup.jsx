@@ -118,12 +118,12 @@ function Signup() {
 
     try {
       const result = await axios.post(
-        'https://courserecomender-backend.onrender.com/signup',
+        'https://courserecomender-backend.onrender.com/signup', // Backend URL (Render)
         { name, email, password }
       );
       console.log(result);
       setError(""); // Clear any existing errors
-      navigate("/login");
+      navigate("/login");  // Navigate to login page after successful signup
     } catch (err) {
       console.error(err);
       setError("Registration failed. Please try again."); // Display error to user

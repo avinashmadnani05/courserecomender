@@ -13,7 +13,7 @@ const DomainInput = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const saveResponse = await axios.post('http://localhost:3000/domain', {
+      const saveResponse = await axios.post('https://courserecomender-backend.onrender.com//domain', {
         userId,
         interests,
         pastExperience,
@@ -23,7 +23,7 @@ const DomainInput = () => {
       if (saveResponse.status === 200) {
         console.log('Domain input saved successfully.');
 
-        const response = await axios.get(`http://localhost:3000/getdomains/${userId}`);
+        const response = await axios.get(`https://courserecomender-backend.onrender.com//getdomains/${userId}`);
 
         if (response.status === 200) {
           setRecommendedDomains(response.data);
