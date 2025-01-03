@@ -208,7 +208,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   });
 
 // Routes
-app.post('/signup', (req, res) => {
+app.post('/https://courserecomender-eoxr.vercel.app/signup', (req, res) => {
   const { name, email, password } = req.body;
   const user = new recom_websiteModel({ name, email, password });
 
