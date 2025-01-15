@@ -188,6 +188,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const recom_websiteModel = require('./models/userdata');
+const methods = require('methods');
 require('dotenv').config();
 
 const app = express();
@@ -196,6 +197,8 @@ app.use(express.json());
 // Define CORS Configuration before using it
 const corsOptions = {
   origin: "https://courserecomender-eoxr.vercel.app", // frontend URI (ReactJS)
+  methods: ['GET','POST'],
+  Credentials: true
 };
 app.use(cors(corsOptions));
 
