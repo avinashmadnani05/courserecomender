@@ -246,6 +246,53 @@ app.get('/', (req, res) => {
   res.send({ message: 'Backend is running!' });
 });
 
+
+// // Example schema and model
+// const RecommendationSchema = new mongoose.Schema({
+//   userId: Number, // Ensure userId is stored
+//   recommended_courses: Array,
+// });
+// const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
+
+
+// // Save user input and dynamically generate recommendations
+// app.post('/UserInput', async (req, res) => {
+//   try {
+//     const userInput = new userinputModel(req.body);
+//     await userInput.save();
+
+//     // Run the Python script after saving user input
+//     const python = spawn('python', ['ML/input.py']); // Update the path if needed
+
+//     python.stdout.on('data', (data) => {
+//       console.log(`Python Output: ${data}`);
+//     });
+
+//     python.stderr.on('data', (data) => {
+//       console.error(`Python Error: ${data}`);
+//     });
+
+//     python.on('close', async (code) => {
+//       if (code === 0) {
+//         // Wait for recommendations to be generated, then fetch them
+//         const recommendations = await Recommendation.findOne({ userId: req.body.userId });
+//         res.json({
+//           message: 'User input saved and recommendations generated successfully.',
+//           recommendations: recommendations ? recommendations.recommended_courses : []
+//         });
+//       } else {
+//         res.status(500).json({ message: 'Error running recommendation script.' });
+//       }
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Error saving user input.' });
+//   }
+// });
+
+
+
+
 // Start Server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
