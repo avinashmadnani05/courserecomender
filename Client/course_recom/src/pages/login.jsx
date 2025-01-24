@@ -11,7 +11,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://courserecomender-backend.onrender.com//login', { email, password }) // Updated URL
+    axios.post('http://localhost:4000/login', { email, password }) // Updated URL
       .then(result => {
         console.log(result);
         if (result.data === "success") {

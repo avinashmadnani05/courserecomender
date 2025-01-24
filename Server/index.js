@@ -195,12 +195,15 @@ const app = express();
 app.use(express.json());
 
 // Define CORS Configuration before using it
-const corsOptions = {
-  origin: "https://courserecomender-eoxr.vercel.app", // frontend URI (ReactJS)
-  methods: ['GET','POST'],
-  Credentials: true
-};
-app.use(cors(corsOptions));
+
+  const corsOptions = {
+    origin: "http://localhost:3000" ,// Add localhost for dev
+    methods: ['GET', 'POST'],
+    credentials: true, // Allow credentials like cookies
+  };
+  app.use(cors(corsOptions));
+  
+
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -211,7 +214,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   });
 
 // Routes
-app.post('/https://courserecomender-eoxr.vercel.app/signup', (req, res) => {
+app.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
   const user = new recom_websiteModel({ name, email, password });
 
@@ -220,13 +223,31 @@ app.post('/https://courserecomender-eoxr.vercel.app/signup', (req, res) => {
     .catch(err => res.status(500).json({ message: 'Error creating user', error: err.message }));
 });
 
+
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  recom_websiteModel.findOne({ email: email })
+    .then(user => {
+      if (user) {
+        if (user.password === password) {
+          res.json("success");
+        } else {
+          res.json("Incorrect Password");
+        }
+      } else {
+        res.json("No user found");
+      }
+    })
+    .catch(err => res.status(500).json({ message: 'Error finding user', error: err }));
+});
+
 // Default Route
 app.get('/', (req, res) => {
   res.send({ message: 'Backend is running!' });
 });
 
 // Start Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -117,11 +117,12 @@ function Signup() {
     }
 
     try {
-      const result = await axios.post(
-        'https://courserecomender-backend.onrender.com/signup', // Backend URL (Render)
-        { name, email, password }
-      );
-      console.log(result);
+     
+        // 'https://courserecomender-backend.onrender.com/signup'
+        const result = await axios.post(
+          'https://courserecomender-backend.onrender.com/signup', // Make sure to include a comma here
+          { name, email, password } // This should be an object
+        );      console.log(result);
       setError(""); // Clear any existing errors
       navigate("/login");  // Navigate to login page after successful signup
     } catch (err) {

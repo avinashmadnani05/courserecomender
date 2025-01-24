@@ -19,6 +19,7 @@ function App() {
       .then((data) => setMessage(data.message))
       .catch((err) => console.error("Error fetching backend:", err));
   }, []);
+  
   return (
   <>
     
