@@ -197,7 +197,7 @@ app.use(express.json());
 // Define CORS Configuration before using it
 
   const corsOptions = {
-    origin: "http://localhost:3000" ,// Add localhost for dev
+    origin: "https://courserecomender.vercel.app" ,// Add localhost for dev
     methods: ['GET', 'POST'],
     credentials: true, // Allow credentials like cookies
   };
