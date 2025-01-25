@@ -142,10 +142,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from pymongo import MongoClient
 import numpy as np
-
-# Connect to MongoDB
-client = MongoClient('mongodb://localhost:27017/')
-db = client['recom']
+# Replace '<username>', '<password>', and '<cluster-url>' with your credentials and cluster URL
+client = MongoClient("mongodb+srv://avinashmadnani05:avinash@cluster0.fzmb2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+db = client['test']
 
 # Retrieve data from the MongoDB collections
 courses_collection = db['courses']
