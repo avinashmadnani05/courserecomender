@@ -184,81 +184,79 @@
 // app.listen(port, () => {
 //   console.log(`Server started on port ${port}`);
 // });
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require('dotenv');
+const { spawn } = require('child_process'); // For Python script execution
 const recom_websiteModel = require('./models/userdata');
-const methods = require('methods');
-require('dotenv').config();
 const userinputModel = require('./models/users');
-const { spawn } = require('child_process'); // To run Python script
+const Recommendation = require('./models/recommendation'); // Schema for recommendations
+
+dotenv.config(); // Load environment variables
 
 const app = express();
+const PORT = process.env.PORT || 4000;
+
+// Middleware
 app.use(express.json());
-
-// Define CORS Configuration before using it
-
-  const corsOptions = {
-    origin: "https://courserecomender.vercel.app" ,// Add localhost for dev
-    methods: ['GET', 'POST', 'OPTIONS'],
-    credentials: true, // Allow credentials like cookies
-  };
-  app.use(cors(corsOptions));
-  
-
+app.use(cors({
+  origin: "https://courserecomender.vercel.app", // Update with your frontend URL
+  methods: ['GET', 'POST'],
+  credentials: true,
+}));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => {
-    console.error('Error connecting to MongoDB:', err.message);
-    process.exit(1); // Exit the app if the database connection fails
+    console.error('MongoDB Connection Error:', err.message);
+    process.exit(1);
   });
 
 // Routes
-app.post('/signup', (req, res) => {
-  const { name, email, password } = req.body;
-  const user = new recom_websiteModel({ name, email, password });
-
-  user.save()
-    .then(() => res.json({ message: 'User created successfully' }))
-    .catch(err => res.status(500).json({ message: 'Error creating user', error: err.message }));
-});
-
-
-app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  recom_websiteModel.findOne({ email: email })
-    .then(user => {
-      if (user) {
-        if (user.password === password) {
-          res.json("success");
-        } else {
-          res.json("Incorrect Password");
-        }
-      } else {
-        res.json("No user found");
-      }
-    })
-    .catch(err => res.status(500).json({ message: 'Error finding user', error: err }));
-});
 
 // Default Route
 app.get('/', (req, res) => {
-  res.send({ message: 'Backend is running!' });
+  res.json({ message: 'Backend is running!' });
 });
 
+// Signup Route
+app.post('/signup', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const user = new recom_websiteModel({ name, email, password });
 
-// // Example schema and model
-const RecommendationSchema = new mongoose.Schema({
-  userId: Number, // Ensure userId is stored
-  recommended_courses: Array,
+    await user.save();
+    res.json({ message: 'User created successfully.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error creating user.', error: err.message });
+  }
 });
-const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
 
+// Login Route
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await recom_websiteModel.findOne({ email });
 
-// Save user input and dynamically generate recommendations
-app.post('/UserInput', async (req, res) => {
+    if (user) {
+      if (user.password === password) {
+        return res.json("success");
+      } else {
+        return res.json("Incorrect Password");
+      }
+    } else {
+      return res.json("No user found");
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Error during login.', error: err.message });
+  }
+});
+
+// Save User Input and Generate Recommendations
+app.post('/userInput', async (req, res) => {
   try {
     const userInput = new userinputModel(req.body);
     await userInput.save();
@@ -294,32 +292,27 @@ app.post('/UserInput', async (req, res) => {
   }
 });
 
-
-
-// Fetch recommendations
+// Get Recommendations for User
 app.get('/getRecommendations/:userId', async (req, res) => {
-  if (isNaN(userId)) {
-    return res.status(400).json({ message: 'Invalid User ID' });
-  }
-  
   try {
     const userId = parseInt(req.params.userId);
-    const recommendations = await Recommendation.findOne({ userId });
+    if (isNaN(userId)) {
+      return res.status(400).json({ message: 'Invalid User ID' });
+    }
 
+    const recommendations = await Recommendation.findOne({ userId });
     if (recommendations) {
       res.json(recommendations.recommended_courses);
     } else {
-      res.status(404).json({ message: 'No recommendations found for this user' });
+      res.status(404).json({ message: 'No recommendations found for this user.' });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error fetching recommendations' });
+    console.error('Error fetching recommendations:', error.message);
+    res.status(500).json({ message: 'Error fetching recommendations.', error: error.message });
   }
 });
 
-
-// Start Server
-const PORT = process.env.PORT || 4000;
+// Start the Server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on ${PORT}`);
 });
