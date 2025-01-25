@@ -190,6 +190,7 @@ const cors = require('cors');
 const recom_websiteModel = require('./models/userdata');
 const methods = require('methods');
 require('dotenv').config();
+const userinputModel = require('./models/users');
 
 const app = express();
 app.use(express.json());
@@ -198,7 +199,7 @@ app.use(express.json());
 
   const corsOptions = {
     origin: "https://courserecomender.vercel.app" ,// Add localhost for dev
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true, // Allow credentials like cookies
   };
   app.use(cors(corsOptions));
@@ -261,8 +262,7 @@ app.post('/UserInput', async (req, res) => {
     const userInput = new userinputModel(req.body);
     await userInput.save();
 
-    // Run the Python script after saving user input
-    const python = spawn('python', ['ML/input.py']); // Update the path if needed
+    const python = spawn('python', ['ML/input.py']);
 
     python.stdout.on('data', (data) => {
       console.log(`Python Output: ${data}`);
@@ -274,25 +274,33 @@ app.post('/UserInput', async (req, res) => {
 
     python.on('close', async (code) => {
       if (code === 0) {
-        // Wait for recommendations to be generated, then fetch them
         const recommendations = await Recommendation.findOne({ userId: req.body.userId });
-        res.json({
-          message: 'User input saved and recommendations generated successfully.',
-          recommendations: recommendations ? recommendations.recommended_courses : []
-        });
+        if (recommendations) {
+          res.json({
+            message: 'Recommendations fetched successfully.',
+            recommendations: recommendations.recommended_courses,
+          });
+        } else {
+          res.status(404).json({ message: 'No recommendations found.' });
+        }
       } else {
-        res.status(500).json({ message: 'Error running recommendation script.' });
+        res.status(500).json({ message: 'Error executing Python script.' });
       }
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error saving user input.' });
+    console.error('Error saving user input:', error.message);
+    res.status(500).json({ message: 'Error saving user input.', error: error.message });
   }
 });
 
 
+
 // Fetch recommendations
 app.get('/getRecommendations/:userId', async (req, res) => {
+  if (isNaN(userId)) {
+    return res.status(400).json({ message: 'Invalid User ID' });
+  }
+  
   try {
     const userId = parseInt(req.params.userId);
     const recommendations = await Recommendation.findOne({ userId });

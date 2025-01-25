@@ -147,7 +147,8 @@ const UserInput = () => {
               <input
                 type="number"
                 value={userId}
-                onChange={(e) => setUserId(e.target.value)}
+                onChange={(e) => setUserId(Number(e.target.value))}
+
               />
             </label>
           </div>
