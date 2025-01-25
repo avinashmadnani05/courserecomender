@@ -291,6 +291,22 @@ app.post('/UserInput', async (req, res) => {
 });
 
 
+// Fetch recommendations
+app.get('/getRecommendations/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    const recommendations = await Recommendation.findOne({ userId });
+
+    if (recommendations) {
+      res.json(recommendations.recommended_courses);
+    } else {
+      res.status(404).json({ message: 'No recommendations found for this user' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching recommendations' });
+  }
+});
 
 
 // Start Server

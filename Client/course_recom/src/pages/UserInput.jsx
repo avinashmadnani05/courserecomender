@@ -103,6 +103,10 @@
 // };
 
 // export default UserInput;
+
+
+
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -117,7 +121,7 @@ const UserInput = () => {
     e.preventDefault();
     try {
       // Save user input
-      await axios.post('https://courserecomender-backend.onrender.com//UserInput', {
+      await axios.post('https://courserecomender-backend.onrender.com/UserInput', {
         userId,
         interests,
         pastExperience,
@@ -125,7 +129,7 @@ const UserInput = () => {
       });
 
       // Fetch the recommendations for the user after saving input
-      const response = await axios.get(`https://courserecomender-backend.onrender.com//getRecommendations/${userId}`);
+      const response = await axios.get(`https://courserecomender-backend.onrender.com/getRecommendations/${userId}`);
       setRecommendedCourses(response.data); // Store the recommendations in state
     } catch (error) {
       console.error('Error fetching recommendations:', error);
