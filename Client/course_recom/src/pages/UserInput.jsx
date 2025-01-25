@@ -130,7 +130,10 @@ const UserInput = () => {
 
       // Fetch the recommendations for the user after saving input
       const response = await axios.get(`https://courserecomender-backend.onrender.com/getRecommendations/${userId}`);
-      setRecommendedCourses(response.data); // Store the recommendations in state
+            console.log(response.data); // Log to check structure
+      setRecommendedCourses(response.data);
+
+      // setRecommendedCourses(response.data); // Store the recommendations in state
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }

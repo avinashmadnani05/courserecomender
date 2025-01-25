@@ -298,14 +298,12 @@ app.post('/UserInput', async (req, res) => {
 
 // Fetch recommendations
 app.get('/getRecommendations/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
   if (isNaN(userId)) {
     return res.status(400).json({ message: 'Invalid User ID' });
   }
-  
   try {
-    const userId = parseInt(req.params.userId);
     const recommendations = await Recommendation.findOne({ userId });
-
     if (recommendations) {
       res.json(recommendations.recommended_courses);
     } else {
