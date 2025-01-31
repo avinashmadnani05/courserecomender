@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React, { useEffect, useState } from "react";
 import Signup from './pages/Signup';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
